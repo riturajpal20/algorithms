@@ -1,0 +1,68 @@
+void binarylifting(ll node, ll par, vector<ll> adj[], vector<vector<ll>> &dp)
+{
+    dp[node][0] = par;
+    ff(i, 1, 17)
+    {
+        dp[node][i] = dp[dp[node][i - 1]][i - 1];
+    }
+    // dfs
+    for (auto it : adj[node])
+    {
+        if (it == par)
+        {
+            continue;
+        }
+        binarylifting(it, node, adj, dp);
+    }
+}
+
+void solve()
+{
+    ll n, q;
+    cin >> n >> q;
+    vec v(n - 1);
+    ff(i, 0, n - 1)
+    {
+        cin >> v[i];
+    }
+    vec adj[n + 1];
+    ll j = 0;
+
+    ff(i, 2, n + 1)
+    {
+        adj[v[j]].pb(i);
+        adj[i].pb(v[j]);
+        j++;
+    }
+    vector<vector<ll>> dp(n + 1, vector<ll>(17, 0));
+    binarylifting(1, 0, adj, dp);
+    // dp has been calculated;
+
+    // ll q;
+    // cin >> q;
+    ll ans = -1;
+    while (q--)
+    {
+        ll node, k;
+        cin >> node >> k;
+        ll cnt = 0;
+        while (k)
+        {
+            if (k & 1)
+            {
+                node = dp[node][cnt];
+            }
+            k = k >> 1;
+            cnt++;
+        }
+        if (node == 0)
+        {
+            cout << -1 << endl;
+        }
+        else
+        {
+            cout << node << endl;
+        }
+        // cout << node << endl;
+    }
+}
