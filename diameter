@@ -1,0 +1,41 @@
+ll N = 2e5 + 1;
+vector<ll> path(N, 0);
+void dfs(ll node, ll par, vector<ll> adj[])
+{
+
+    for (auto it : adj[node])
+    {
+        // if it not equal to parent
+        if (it == par)
+        {
+            continue;
+        }
+        path[it] = 1 + path[node];
+        dfs(it, node, adj);
+    }
+}
+void solve()
+{
+    ll lastnode = 1;
+    ll n;
+    cin >> n;
+    vector<ll> adj[n + 1];
+    ff(i, 0, n - 1)
+    {
+        ll u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    dfs(1, -1, adj);
+    ff(i, 1, path.size() + 1)
+    {
+        if (path[i] > path[lastnode])
+        {
+            lastnode = i;
+        }
+    }
+    path.assign(N, 0);
+    dfs(lastnode, -1, adj);
+    cout << *max_element(path.begin(), path.end());
+}
