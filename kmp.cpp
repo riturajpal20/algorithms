@@ -29,7 +29,7 @@ int kmpfunc(string &s, string &t, vector<int> &prefarray)
     int j = 0;
     while (i < t.size())
     {
-        if (t[i] == s[i])
+        if (t[i] == s[j])
         {
             j++;
             i++;
